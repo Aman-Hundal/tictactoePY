@@ -8,43 +8,39 @@ from IPython.display import clear_output
 
 def display_board(board):
     
-    row1 = board[7::]
-    row2 = board[4:7]
-    row3 = board[1:4]
-    
     clear_output()
-    print(row1)
-    print(row2)
-    print(row3)
+    print(board[7::])
+    print(board[4:7])
+    print(board[1:4])
 
 
 # In[2]:
 
 
-def player_input():
+def player_marker():
     
-    choice = "BLANK"
+    marker = "BLANK"
     acceptable_choice = ["X", "O"]
     players = {"p1": "", "p2": ""}
     
-    while choice not in acceptable_choice:
+    while marker.upper() not in acceptable_choice:
     
-        choice = input("Player 1, would you like to be X or O? ")
+        marker = input("Player 1, would you like to be X or O? ").upper()
         
-        if choice not in acceptable_choice:
+        if marker.upper() not in acceptable_choice:
             print("Sorry I dont understand, please enter X or O.")
         
-        if choice in acceptable_choice:
-            if choice == "X":
+        else:
+            if marker.upper() == "X":
                 players["p1"] = "X"
                 players["p2"] = "O"
-            elif choice =="O":
+            elif marker.upper() =="O":
                 players["p1"] = "O"
                 players["p2"] = "X"
                 
                 
     print(f"Player 1 you are {players['p1']} and Player 2 you are {players['p2']}. Player 1 you are first.")
-    return (players)            
+    return (players)                     
 
 
 # In[3]:
@@ -54,14 +50,10 @@ def player_move(board,marker):
     
     def space_check(board, choice):
     
-        if board[choice] == '':
-            return True
-        else:
-            return False
+        return True if board[choice] == '' else False
     
     choice = "BLANK"
     acceptable_range = ["1","2","3","4","5","6","7","8","9"]
-    check = False
     
     
     while choice not in acceptable_range:
@@ -71,13 +63,12 @@ def player_move(board,marker):
         if choice not in acceptable_range:
             print("Sorry I did not understand. Please select a number from 1 to 9.")
             
-        if choice in acceptable_range:
+        else:
             choice = int(choice)
-            check = space_check(board, choice)
-            if check == True:
+            if space_check(board, choice):
                 choice = int(choice)
                 break
-            elif check == False:
+            else:
                 print("Sorry that space is taken. Please select an available space.")
 
 
@@ -110,12 +101,8 @@ def game_tie(board, marker):
     list_check = []
     
     for i in board[1::]:
-        
-    
-        if i != "":
+          if i != "":
             list_check.append(i)
-        else:
-            pass
     
     return len(list_check) == 9
         
@@ -146,7 +133,7 @@ def play_again():
 
 
 board = ['','','','','','','','','','']
-players = player_input()
+players = player_marker()
 marker1 = players["p1"]
 marker2 = players["p2"]
 
@@ -154,9 +141,8 @@ game_off = False
 
 while game_off == False:
     
-    position1 = player_move(board,marker1)
-    display_board(board)
-    position2 = player_move(board,marker2)
+    print("Player ONE your turn")
+    player_move(board,marker1)
     display_board(board)
     
     if game_win(board,marker1) == True:
@@ -164,18 +150,48 @@ while game_off == False:
         game_off = play_again()
         if game_off == False:
             board = ['','','','','','','','','','']
+        else:
+            break
     elif game_win(board,marker2) == True:
         print("Player 2 has won the game!")
         game_off = play_again()
         if game_off == False:
             board = ['','','','','','','','','','']
+        else:
+            break
     elif game_tie(board,marker1) == True:
         print("Draw! How boring.")
         game_off = play_again()
         if game_off == False:
             board = ['','','','','','','','','','']
-    else:
-        pass
+        else:
+            break
+    
+    print("Player TWO your turn.")
+    player_move(board,marker2)
+    display_board(board)
+    
+    if game_win(board,marker1) == True:
+        print("Player 1 has won the game!")
+        game_off = play_again()
+        if game_off == False:
+            board = ['','','','','','','','','','']
+        else:
+            break
+    elif game_win(board,marker2) == True:
+        print("Player 2 has won the game!")
+        game_off = play_again()
+        if game_off == False:
+            board = ['','','','','','','','','','']
+        else:
+            break
+    elif game_tie(board,marker1) == True:
+        print("Draw! How boring.")
+        game_off = play_again()
+        if game_off == False:
+            board = ['','','','','','','','','','']
+        else:
+            break
     
 
 
