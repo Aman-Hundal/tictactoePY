@@ -152,13 +152,6 @@ while game_off == False:
             board = ['','','','','','','','','','']
         else:
             break
-    elif game_win(board,marker1) == True:
-        print("Player 1 has won the game!")
-        game_off = play_again()
-        if game_off == False:
-            board = ['','','','','','','','','','']
-        else:
-            break
     elif game_tie(board,marker1) == True:
         print("Draw! How boring.")
         game_off = play_again()
@@ -172,13 +165,6 @@ while game_off == False:
     display_board(board)
     
     if game_win(board,marker2) == True:
-        print("Player 2 has won the game!")
-        game_off = play_again()
-        if game_off == False:
-            board = ['','','','','','','','','','']
-        else:
-            break
-    elif game_win(board,marker2) == True:
         print("Player 2 has won the game!")
         game_off = play_again()
         if game_off == False:
